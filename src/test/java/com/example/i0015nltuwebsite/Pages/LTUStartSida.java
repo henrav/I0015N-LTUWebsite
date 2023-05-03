@@ -20,6 +20,21 @@ public class LTUStartSida {
     public SelenideElement buttonCybotCookiebotDialogBody = $("button[id='CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll']");
 
     public SelenideElement linkStudent = $("html > body > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > div > a:nth-of-type(1)");
+
+    public SelenideElement linkUtbildning = $(byText("Utbildning"));
+
+    public SelenideElement linkDataOchElektronik = $(byText("Data, IT och elektronik "));
+
+    public SelenideElement liUtbildning = $("html > body > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > nav > ul > li:nth-of-type(1)");
+
+    public SelenideElement linkUtbildning2 = $("html > body > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > nav > ul > li:nth-of-type(1) > a");
+
+    public SelenideElement linkUtbildning3 = $(byText("Utbildning"));
+
+    public SelenideElement linkUtbildning4 = $("a.mega-menu-topitem");
+
+
+
     
 }
 

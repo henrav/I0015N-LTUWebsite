@@ -12,12 +12,16 @@ public class StudentLadokSeStudentAppPageTranscripts {
 
     public SelenideElement optionObject = $x("//option[@value='2: Object']");
 
-    public SelenideElement buttonCreate2 = $x("//button[contains(@class, 'me-lg-3')]");
+    
 
-    public SelenideElement linkOpenDocumentNewWindow = $x("//a[@class='card-link']");
+    public SelenideElement linkOpenDocumentNewWindow = $(byText("Official transcript of records"));
+
+    public SelenideElement linkOpenDocumentNewWindow2 = $(byText("Official transcript of records"));
+
+   
 
 
-    public SelenideElement downloadTranscript = $x("//a[@id='download']");
+    
 
 
 
