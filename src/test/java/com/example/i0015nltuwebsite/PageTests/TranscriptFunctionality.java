@@ -54,8 +54,7 @@ public class TranscriptFunctionality {
         Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
         open("https://www.ltu.se/");
     }
-    //@Test
-    /*
+    @Test
     @Description("Test transcript functionality")
     public void transcriptFunctionality() {
         try {
@@ -82,7 +81,7 @@ public class TranscriptFunctionality {
             throw new RuntimeException(e);
         }
     }
-    //@Test
+    @Test
     public void finalExaminationFunctionality(){
         try {
             ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).click();
@@ -109,7 +108,7 @@ public class TranscriptFunctionality {
 
 
     }
-    //@Test
+    @Test
     public void downloadTranscript(){
         try {
             ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).click();
@@ -135,7 +134,7 @@ public class TranscriptFunctionality {
         closeWebDriver();
     }
 
-     */
+
     @Test
     public void courseSyllabus(){
         try{
@@ -146,16 +145,16 @@ public class TranscriptFunctionality {
                 throw new RuntimeException(e);
             }
 
-            ltuStartSida.linkUtbildning.shouldBe(visible).sendKeys(Keys.ENTER);
-            ltuStartSida.linkDataOchElektronik.shouldBe(visible).click();
-            ltuSeEduBliStudentPage.linkKandidatexamen.shouldBe(visible).click();
-            ltuSeEduBliStudentPage.divProgramHeader.shouldBe(visible).click();
-            ltuSeEduBliStudentPage.linkUtbplan.shouldBe(visible).click();
+            ltuStartSida.divMissat.shouldBe(visible).click();
+            ltuSeEduBliStudentPage.datorITlänk.shouldBe(visible).click();
+            ltuSeEduBliStudentPage.Systemvetenskap.shouldBe(visible).click();
+            ltuSeEduBliStudentPage.syllabus.shouldBe(visible).click();
+            ltuSeEduBliStudentPage.downloadSyllabus.shouldBe(visible).click();
         } catch (ElementNotFound e) {
             throw new RuntimeException(e);
         }
         try{
-            Thread.sleep(4000);
+            Thread.sleep(7000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

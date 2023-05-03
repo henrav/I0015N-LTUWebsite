@@ -8,10 +8,24 @@ import static com.codeborne.selenide.Selenide.*;
 
 // page_url = https://www.ltu.se/edu/bli-student/prog/IT
 public class LtuSeEduBliStudentPage {
-    public SelenideElement linkKandidatexamen = $(byText("\n                                    Systemvetenskap, kandidatexamen \n                                                                    "));
+    public SelenideElement datorITlänk = $("html > body > main > div > div > div > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(1) > ul > li:nth-of-type(4)");
 
-    public SelenideElement divProgramHeader = $(byText("\n                                        Utbildningsplan\n                                        \n                                    "));
+    public SelenideElement Systemvetenskap = $("html > body > main > div > div > div > div:nth-of-type(1) > nav > div > ul > li:nth-of-type(7)");
 
-    public SelenideElement linkUtbplan = $(byText("\n                    \n                    \n                                                    Utbildningsplan\n                                       ..."));
+    public SelenideElement syllabus = $("div[class='utbplan-puff'] a");
+
+    public SelenideElement downloadSyllabus = $("a[class='utbplan-pdf-link']");
+    
+    
+    
+    
+
+    
+    
+
+    
+    
+
+
 
 }

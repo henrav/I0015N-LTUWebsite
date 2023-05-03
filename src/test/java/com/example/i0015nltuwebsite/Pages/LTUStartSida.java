@@ -27,11 +27,9 @@ public class LTUStartSida {
 
     public SelenideElement liUtbildning = $("html > body > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > nav > ul > li:nth-of-type(1)");
 
-    public SelenideElement linkUtbildning2 = $("html > body > header > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > nav > ul > li:nth-of-type(1) > a");
+    public SelenideElement divMissat = $("html > body > main > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div > div");
 
-    public SelenideElement linkUtbildning3 = $(byText("Utbildning"));
 
-    public SelenideElement linkUtbildning4 = $("a.mega-menu-topitem");
 
 
 
