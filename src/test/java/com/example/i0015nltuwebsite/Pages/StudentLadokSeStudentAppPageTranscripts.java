@@ -9,6 +9,9 @@ import static com.codeborne.selenide.Selenide.*;
 // page_url = https://www.student.ladok.se/student/app/studentwebb/intyg
 public class StudentLadokSeStudentAppPageTranscripts {
     public SelenideElement buttonCreateTranscripts = $x("//button[@title='Create']");
+    
+    
+    
 
     public SelenideElement optionObject = $x("//option[@value='2: Object']");
 
@@ -17,6 +20,12 @@ public class StudentLadokSeStudentAppPageTranscripts {
     public SelenideElement linkOpenDocumentNewWindow = $(byText("Official transcript of records"));
 
     public SelenideElement linkOpenDocumentNewWindow2 = $(byText("Official transcript of records"));
+
+    public SelenideElement buttonCreateNewTranscript = $x("//button[contains(@class, 'me-lg-3')]");
+    
+    
+
+    
 
    
 

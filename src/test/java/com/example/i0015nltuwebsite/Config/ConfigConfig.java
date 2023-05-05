@@ -9,11 +9,13 @@ import java.util.Iterator;
 
 public class ConfigConfig {
 
+    private static final String CONFIG_FILE = "F:\\CodingSpaces\\intellij-workspace\\I0015N-LTUWebsite\\src\\LTUcredentials.json";
 
-        public static String getEmail(String key) {// Path: src/main/java/com/example/Config.java
+
+        public static String getEmail(String key) {
             // get the email to login with
             System.out.println("running code");
-            File jsonFile = new File("/Users/henrikravnborg/IdeaProjects/I0015N-LTUWebsite/src/LTUcredentials.json");
+            File jsonFile = new File(CONFIG_FILE);
 
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -36,10 +38,10 @@ public class ConfigConfig {
 
             return null;
         }
-        public static String getPassword(String key) {// Path: src/main/java/com/example/Config.java
+        public static String getPassword(String key) {
             // get the password to login with
             System.out.println("running code");
-            File jsonFile = new File("/Users/henrikravnborg/IdeaProjects/I0015N-LTUWebsite/src/LTUcredentials.json");
+            File jsonFile = new File(CONFIG_FILE);
 
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -60,7 +62,7 @@ public class ConfigConfig {
         }
         public static String getSchoolSearch(String key){
             System.out.println("running code");
-            File jsonFile = new File("/Users/henrikravnborg/IdeaProjects/I0015N-LTUWebsite/src/LTUcredentials.json");
+            File jsonFile = new File(CONFIG_FILE);
 
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
