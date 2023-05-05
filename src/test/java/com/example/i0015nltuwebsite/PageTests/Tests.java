@@ -11,6 +11,10 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Map;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -35,7 +39,7 @@ public class Tests {
     public static void setUpAll() {
         Configuration.browser = "chrome";
         ChromeOptions options = new ChromeOptions();
-
+        Configuration.downloadsFolder= "newDownloadsFolder";
         options.addArguments("--lang=SWE");
         Configuration.browserSize = "1280-1024";
         Configuration.browserCapabilities = options;
@@ -43,12 +47,28 @@ public class Tests {
         Configuration.timeout = 10000;
 
     }
+    @AfterAll
+    public static void tearDownAll() throws IOException {
+        Path directory = Path.of("newDownloadsFolder");
+        if (Files.exists(directory)) {
+            Files.walk(directory)
+                    .sorted((path1, path2) -> -path1.compareTo(path2)) // sort in reverse order
+                    .forEach(path -> {
+                        try {
+                            Files.delete(path);
+                        } catch (IOException e) {
+                            System.err.println("Failed to delete " + path + ": " + e.getMessage());
+                        }
+                    });
+        }
+    }
 
 
     @BeforeEach
     public void setUp() {
         // Fix the issue
         Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
+
         open("https://www.ltu.se/");
     }
 
@@ -192,9 +212,6 @@ public class Tests {
             sökResultat.linkKursplan3.shouldBe(visible).click();
             sökResultat.kursplanV23.shouldBe(visible).click();
             sökResultat.downloadKursplan.shouldBe(visible).click();
-
-
-
             File tjena = sökResultat.downloadKursplan.download();
             String directoryPath = "target/downloads";
             File directory = new File(directoryPath);
@@ -208,8 +225,6 @@ public class Tests {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
             try{
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
