@@ -1,1 +1,1 @@
-had some problems creating this butt everything is on the branch "Master"
+had some problems creating this but everything is on the branch "Master"
