@@ -1,3 +1,5 @@
+All code relevant to the email is in "Tests.java". (@BeforeAll at line 38) , (@AfterAll at line 50) and (@Test at line 198)
+
 To run this program you have to change the logindetails in "I0015N-LTUWebsite/src/LTUcredentials.json" to what ever works for you. The file you have to run is the following "I0015N-LTUWebsite/src/test/java/com/example/i0015nltuwebsite/PageTests/Tests.java"
 
 to clarify what i wrote in the email:
