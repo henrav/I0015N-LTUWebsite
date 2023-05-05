@@ -29,6 +29,17 @@ public class LTUStartSida {
 
     public SelenideElement divMissat = $("html > body > main > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > div > div");
 
+    
+    public String search = "I0015N";
+
+    public SelenideElement buttonSearch = $("button[class='button is-medium ltu-search-btn']");
+
+    public SelenideElement inputCludoSearchBar = $("input[id='cludo-search-bar-input']");
+
+
+
+    
+
 
 
 

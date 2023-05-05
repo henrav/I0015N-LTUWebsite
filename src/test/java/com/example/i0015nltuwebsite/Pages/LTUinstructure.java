@@ -15,6 +15,20 @@ public class LTUinstructure {
     @FindBy(xpath = "//*[text() = 'I0015N, Test av IT-system, Lp4, V23']")
     public WebElement linkTestSystem;
 
+    @FindBy(css = "a.fOyUs_bGBk.fbyHH_bGBk.fbyHH_bSMN")
+    public WebElement linkTestSystem2;
+
+    @FindBy(css = "html > body > div:nth-of-type(4) > span > span > div > div > div > div > div > ul:nth-of-type(1) > li:nth-of-type(8) > a")
+    public WebElement linkTestSystem3;
+
+    public SelenideElement myProfile = $("button[id*='profile']");
+    public SelenideElement logout = $("button[style='margin: 1.5rem 0px 0.5rem; padding: 0px; border-radius: 0.25rem; border-width: 0px; width: auto; cursor: pointer;']");
+    @FindBy(css = "button[id*='profile']")
+    public WebElement buttonGlobalNavProfileLink;
+
+    @FindBy(css = "button[style='margin: 1.5rem 0px 0.5rem; padding: 0px; border-radius: 0.25rem; border-width: 0px; width: auto; cursor: pointer;']")
+    public WebElement buttonLogga;
+    
    
 
 

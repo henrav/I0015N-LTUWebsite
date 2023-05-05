@@ -18,6 +18,8 @@ public class StudentLadokSeStudentAppPageTranscripts {
 
     public SelenideElement linkOpenDocumentNewWindow2 = $(byText("Official transcript of records"));
 
+    public SelenideElement buttonCreate = $("button[class*='btn-ladok-brand']");
+
    
 
 
