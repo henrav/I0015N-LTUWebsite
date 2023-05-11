@@ -10,11 +10,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Map;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -37,6 +37,8 @@ public class Tests {
 
     @BeforeAll
     public static void setUpAll() {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("video", true);
         Configuration.browser = "chrome";
         ChromeOptions options = new ChromeOptions();
         Configuration.downloadsFolder= "newDownloadsFolder";
@@ -45,6 +47,7 @@ public class Tests {
         Configuration.browserCapabilities = options;
         SelenideLogger.addListener("allure", new AllureSelenide());
         Configuration.timeout = 10000;
+
 
     }
     @AfterAll
@@ -146,7 +149,7 @@ public class Tests {
         String expectedUrl= "https://ltu.instructure.com/courses/18863/pages/final-examination-information?module_item_id=321907";
         String actualUrl = url();
         Assertions.assertEquals(expectedUrl, actualUrl);
-        ltuinstructure.myProfile.shouldBe(visible).click();
+        ltuinstructure.myProfile1.shouldBe(visible).click();
         ltuinstructure.logout.shouldBe(visible).click();
         try {
             Thread.sleep(2000);
