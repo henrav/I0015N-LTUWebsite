@@ -4,8 +4,8 @@ import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
+
 public class LTUinstructureI0015N {
     public SelenideElement linkModuler = $x("//*[text() = 'Moduler']");
 
@@ -18,6 +18,5 @@ public class LTUinstructureI0015N {
     @FindBy(xpath = "//*[text() = 'kursplanen']")
     public WebElement spanKursplanen2;
     public SelenideElement kursplanen = $x("//*[text() = 'kursplanen']");
-
 
 }

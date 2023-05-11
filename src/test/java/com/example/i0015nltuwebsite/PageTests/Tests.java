@@ -1,9 +1,9 @@
 package com.example.i0015nltuwebsite.PageTests;
+
 import com.codeborne.selenide.*;
 import com.codeborne.selenide.ex.ElementNotFound;
-import com.example.i0015nltuwebsite.Config.ConfigConfig;
+import com.example.i0015nltuwebsite.Config.Config;
 import com.example.i0015nltuwebsite.Pages.*;
-import io.qameta.allure.Description;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,6 +15,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -32,24 +34,21 @@ public class Tests {
     LTUinstructureI0015Nmoduler ltuinstructureI0015Nmoduler = new LTUinstructureI0015Nmoduler();
     SökResultat sökResultat = new SökResultat();
 
-
-
-
     @BeforeAll
     public static void setUpAll() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("video", true);
         Configuration.browser = "chrome";
         ChromeOptions options = new ChromeOptions();
-        Configuration.downloadsFolder= "newDownloadsFolder";
-        options.addArguments("--lang=SWE");
-        Configuration.browserSize = "1280-1024";
+        Configuration.downloadsFolder = "newDownloadsFolder";
+        options.addArguments("--lang=en");
+        Configuration.browserSize = "1280x1024";
         Configuration.browserCapabilities = options;
         SelenideLogger.addListener("allure", new AllureSelenide());
         Configuration.timeout = 10000;
 
-
     }
+
     @AfterAll
     public static void tearDownAll() throws IOException {
         Path directory = Path.of("newDownloadsFolder");
@@ -66,7 +65,6 @@ public class Tests {
         }
     }
 
-
     @BeforeEach
     public void setUp() {
         // Fix the issue
@@ -75,57 +73,99 @@ public class Tests {
         open("https://www.ltu.se/");
     }
 
+    @Disabled("Do not want to create a new transcript every time")
     @Test
-    @Description("Test transcript functionality")
     public void transcriptFunctionality() {
         try {
+            // Click cookies and navigate to ladok link and page
             ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).click();
             ltuStartSida.linkStudent.shouldBe(visible).click();
             ltuStudentSida.divRegisterUtag.shouldBe(visible).click();
+            System.out.println("Navigated to ladok successfully");
+
+            // Check that the url is correct for ladok
+            String ladokURL = "https://www.student.ladok.se/student/app/studentwebb/";
+            String actualUrl = url();
+            Assertions.assertEquals(ladokURL, actualUrl, "Failed to navigate to Ladok page. URLs do not match!");
+
+            // Select Luleå University of Technology as school
             studentLadokSeStudentAppPage.linkInloggningViaDittRos.shouldBe(visible).click();
-            studentLadokSeStudentAppPage.inputSearchinput.shouldBe(visible).setValue(ConfigConfig.getSchoolSearch("schoolsearch"));
+            studentLadokSeStudentAppPage.inputSearchinput.shouldBe(visible)
+                    .setValue(Config.getSchoolSearch("schoolsearch"));
             studentLadokSeStudentAppPage.liSelectLuleaUniversityTechnology.shouldBe(visible).click();
-            webLogonLTU.inputUsername.shouldBe(visible).setValue(ConfigConfig.getEmail("email"));
-            webLogonLTU.inputPassword.shouldBe(visible).setValue(ConfigConfig.getPassword("password"));
+            System.out.println("Selected Luleå University of Technology as the school successfully");
+
+            // Login to ladok
+            webLogonLTU.inputUsername.shouldBe(visible).setValue(Config.getEmail("email"));
+            webLogonLTU.inputPassword.shouldBe(visible).setValue(Config.getPassword("password"));
             webLogonLTU.buttonLogin.shouldBe(visible).click();
+            System.out.println("Logged in to ladok successfully");
+
+            // Navigate to transcripts
             studentLadokSeStudentAppPageStart.spanMenu.shouldBe(visible).click();
             studentLadokSeStudentAppPageStart.linkAndCertificates.shouldBe(visible).click();
+            System.out.println("Navigated to transcripts successfully");
+
+            // Create new transcript, and select options
             studentLadokSeStudentAppPageTranscripts.buttonCreateTranscripts.shouldBe(visible).click();
             studentLadokSeStudentAppPageTranscripts.optionObject.shouldBe(visible).click();
-            studentLadokSeStudentAppPageTranscripts.buttonCreate.scrollIntoView(true);
+            studentLadokSeStudentAppPageTranscripts.buttonCreateNewTranscript.scrollIntoView(true);
+            System.out.println("Filled in all transcript options successfully");
+
+            // THIS LINE CREATES THE NEW TRANSCRIPT,
+            studentLadokSeStudentAppPageTranscripts.buttonCreateNewTranscript.shouldBe(visible).click();
+
+            // Give time for the transcript to be created
             try {
                 Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                System.err.println("Interrupted exception while waiting: " + e.getMessage());
+                Thread.currentThread().interrupt();
             }
-            catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            String expectedUrl= "https://www.student.ladok.se/student/app/studentwebb/intyg/skapa-intyg";
-            String actualUrl = url();
+
+            // Only works if you also create a new transcript, otherwise actualUrl will be
+            // different
+            String expectedUrl = "https://www.student.ladok.se/student/app/studentwebb/intyg";
+            actualUrl = url();
             Assertions.assertEquals(expectedUrl, actualUrl);
+
         } catch (ElementNotFound e) {
-            throw new RuntimeException(e);
+            System.err.println("Element not found: " + e.getMessage());
         }
         closeWebDriver();
+
     }
-
-
-
-
 
     @Test
     public void finalExaminationFunctionality() {
         try {
+            // Click cookies and navigate to login page
             ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).click();
             ltuStartSida.linkStudent.shouldBe(visible).click();
             ltuStudentSida.divLoggaCanvas.shouldBe(visible).click();
-            webLogonLTU.inputUsername.shouldBe(visible).setValue(ConfigConfig.getEmail("email"));
-            webLogonLTU.inputPassword.shouldBe(visible).setValue(ConfigConfig.getPassword("password"));
+            System.out.println("Navigated to the student Canvas page successfully.");
+
+            // Login to account
+            webLogonLTU.inputUsername.shouldBe(visible).setValue(Config.getEmail("email"));
+            webLogonLTU.inputPassword.shouldBe(visible).setValue(Config.getPassword("password"));
             webLogonLTU.buttonLogin.shouldBe(visible).click();
+            System.out.println("Logged in successfully.");
+
+            // Navigate to the course page
             ltuinstructure.Kurser.shouldBe(visible).click();
-            ltuinstructure.Testavit.shouldBe(visible).click();
+            Selenide.executeJavaScript("arguments[0].click();", ltuinstructure.Testavit.shouldBe(visible));
+            System.out.println("Course and test link clicked successfully.");
+
+            // Navigate to the module page
             ltuinstructureI0015N.linkModuler.shouldBe(visible).click();
             ltuinstructureI0015Nmoduler.linkModuler.shouldBe(visible).click();
             ltuinstructureI0015Nmoduler.textOmTenta.shouldBe(visible);
+
+            // Check if information regarding exam was found, if so take a screenshot and
+            // print date and time
+            Assertions.assertTrue(
+                    ltuinstructureI0015Nmoduler.textOmTenta.getText().contains("Final Examination Information"),
+                    "Examination text does not contain 'Final Examination Information'.");
             if (ltuinstructureI0015Nmoduler.textOmTenta.getText().contains("Final Examination Information")) {
                 File screenshot = Screenshots.takeScreenShotAsFile();
                 String directoryPath = "target/screenshots";
@@ -137,105 +177,191 @@ public class Tests {
                 File screenshotwithnamn = new File(directoryPath, filnamn);
                 try {
                     FileUtils.copyFile(screenshot, screenshotwithnamn);
+                    System.out.println("Final Examination Information found and screenshot captured.");
                 } catch (IOException e) {
+                    System.err.println("Error occurred while copying the screenshot: " + e.getMessage());
                     throw new RuntimeException(e);
                 }
+
+                // Extract date and time
+                String text = ltuinstructureI0015Nmoduler.textOmTenta.getText();
+                Pattern pattern = Pattern.compile(
+                        "(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\\s\\w+\\s\\d{1,2}(st|nd|rd|th),\\sfrom\\s\\d{1,2}:\\d{2}\\s-\\s\\d{1,2}:\\d{2}");
+                Matcher matcher = pattern.matcher(text);
+                if (matcher.find()) {
+                    String dateTime = matcher.group();
+                    System.out.println("Date and time found: " + dateTime);
+                    System.out.println(dateTime);
+                } else {
+                    System.out.println("Date and time not found.");
+                }
+
             } else {
-                System.out.println("Tenta är stängd");
+                System.out.println("Final Examination Information not found.");
             }
+
         } catch (ElementNotFound e) {
+            System.err.println("Failed to find element: " + e.getMessage());
             throw new RuntimeException(e);
         }
-        String expectedUrl= "https://ltu.instructure.com/courses/18863/pages/final-examination-information?module_item_id=321907";
+
+        String expectedUrl = "https://ltu.instructure.com/courses/18863/pages/final-examination-information?module_item_id=321907";
         String actualUrl = url();
-        Assertions.assertEquals(expectedUrl, actualUrl);
+        Assertions.assertEquals(expectedUrl, actualUrl,
+                "Failed to navigate to the expected URL after clicking the test link.");
+
         ltuinstructure.myProfile1.shouldBe(visible).click();
         ltuinstructure.logout.shouldBe(visible).click();
+        System.out.println("Logged out successfully.");
+
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Thread was interrupted: " + e.getMessage());
+            Thread.currentThread().interrupt();
         }
+
         String expectedURLlogout = "https://ltu.instructure.com/logout";
         String actualURLlogout = url();
-        Assertions.assertEquals(expectedURLlogout, actualURLlogout);
-
+        Assertions.assertEquals(expectedURLlogout, actualURLlogout,
+                "Failed to navigate to the logout URL after clicking the logout link.");
 
         closeWebDriver();
-
-
     }
 
     @Test
     public void downloadTranscript() {
         try {
+            // Click cookies and navigate to ladok link and page
             ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).click();
             ltuStartSida.linkStudent.shouldBe(visible).click();
             ltuStudentSida.divRegisterUtag.shouldBe(visible).click();
+            System.out.println("Navigated to ladok successfully");
+
+            // Check that the url is correct for ladok
+            String ladokURL = "https://www.student.ladok.se/student/app/studentwebb/";
+            String actualUrl = url();
+            Assertions.assertEquals(ladokURL, actualUrl, "Failed to navigate to Ladok page. URLs do not match!");
+
+            // Select Luleå University of Technology as school
             studentLadokSeStudentAppPage.linkInloggningViaDittRos.shouldBe(visible).click();
-            studentLadokSeStudentAppPage.inputSearchinput.shouldBe(visible).setValue(ConfigConfig.getSchoolSearch("schoolsearch"));
+            studentLadokSeStudentAppPage.inputSearchinput.shouldBe(visible)
+                    .setValue(Config.getSchoolSearch("schoolsearch"));
             studentLadokSeStudentAppPage.liSelectLuleaUniversityTechnology.shouldBe(visible).click();
-            webLogonLTU.inputUsername.shouldBe(visible).setValue(ConfigConfig.getEmail("email"));
-            webLogonLTU.inputPassword.shouldBe(visible).setValue(ConfigConfig.getPassword("password"));
+            System.out.println("Selected Luleå University of Technology as the school successfully");
+
+            // Login to ladok
+            webLogonLTU.inputUsername.shouldBe(visible).setValue(Config.getEmail("email"));
+            webLogonLTU.inputPassword.shouldBe(visible).setValue(Config.getPassword("password"));
             webLogonLTU.buttonLogin.shouldBe(visible).click();
+            System.out.println("Logged in to ladok successfully");
+
+            // Navigate to transcripts
             studentLadokSeStudentAppPageStart.spanMenu.shouldBe(visible).click();
             studentLadokSeStudentAppPageStart.linkAndCertificates.shouldBe(visible).click();
+            System.out.println("Navigated to transcripts successfully");
+
+            // Click the most recent pdf, which will download it
             studentLadokSeStudentAppPageTranscripts.linkOpenDocumentNewWindow.shouldBe(visible).click();
-        } catch (ElementNotFound e) {
+            System.out.println("Initiated download of the most recently created PDF.");
+
+            File tempFile = studentLadokSeStudentAppPageTranscripts.linkOpenDocumentNewWindow.download();
+            String directoryPath = "target/downloads";
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            String fileName = "Transcript.pdf";
+            File transcript = new File(directoryPath, fileName);
+            try {
+                FileUtils.copyFile(tempFile, transcript);
+                System.out.println("Successfully downloaded and saved the transcript.");
+            } catch (IOException e) {
+                System.err.println("Failed to save the downloaded transcript. Error: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                System.err.println("Interrupted while waiting after the download. Error: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+
+        } catch (ElementNotFound | FileNotFoundException e) {
+            System.err.println("Failed to find an element or the file. Error: " + e.getMessage());
             throw new RuntimeException(e);
         }
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
+            System.err.println("Interrupted while waiting before asserting the URL. Error: " + e.getMessage());
             throw new RuntimeException(e);
         }
         screenshot("transcript.png");
-        String expectedUrl= "https://www.student.ladok.se/student/app/studentwebb/intyg";
+        String expectedUrl = "https://www.student.ladok.se/student/app/studentwebb/intyg";
         String actualUrl = url();
-        Assertions.assertEquals(expectedUrl, actualUrl);
+        Assertions.assertEquals(expectedUrl, actualUrl, "Failed to verify the URL after downloading transcript.");
         closeWebDriver();
     }
-
 
     @Test
     public void courseSyllabus() {
         try {
-            ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).sendKeys(Keys.ENTER);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            // Click cookies and navigate to ladok link and page
+            ltuStartSida.buttonCybotCookiebotDialogBody.shouldBe(visible).click();
 
+            // Click search icon, and search for "I0015N"
             ltuStartSida.buttonSearch.shouldBe(visible).click();
             ltuStartSida.inputCludoSearchBar.shouldBe(visible).setValue(ltuStartSida.search);
             ltuStartSida.inputCludoSearchBar.sendKeys(Keys.ENTER);
+
+            // Navigate to I0015N course page
             sökResultat.h2TestSystemGskolepo.shouldBe(visible).click();
             sökResultat.divDenKursenRiktarSig.shouldBe(visible);
+
+            // Check that the url is correct for the course page
+            String courseUrl = "https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215";
+            String actualUrl = url();
+            Assertions.assertEquals(courseUrl, actualUrl, "Failed to navigate to the course page.");
+
+            // Navigate to course syllabus
             sökResultat.linkKursplan3.shouldBe(visible).click();
             sökResultat.kursplanV23.shouldBe(visible).click();
+
+            // Make sure that the syllabys is for the correct year
+            String correctYearUrl = "https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215?kursView=kursplan&termin=V23";
+            actualUrl = url();
+            Assertions.assertEquals(correctYearUrl, actualUrl, "Failed to navigate to the correct year.");
+
+            // download the course syllabys
             sökResultat.downloadKursplan.shouldBe(visible).click();
-            File tjena = sökResultat.downloadKursplan.download();
+
+            File tempFile = sökResultat.downloadKursplan.download();
             String directoryPath = "target/downloads";
             File directory = new File(directoryPath);
-            if(!directory.exists()){
+            if (!directory.exists()) {
                 directory.mkdirs();
             }
-            String filnamn = "Syllabus.pdf";
-            File syllabus = new File(directoryPath, filnamn);
+            String fileName = "Syllabus.pdf";
+            File syllabus = new File(directoryPath, fileName);
             try {
-                FileUtils.copyFile(tjena, syllabus);
+                FileUtils.copyFile(tempFile, syllabus);
+                System.out.println("Successfully downloaded and saved the syllabus");
             } catch (IOException e) {
+                System.err.println("Failed to save the downloaded syllabus. Error: " + e.getMessage());
                 throw new RuntimeException(e);
             }
-            try{
+            
+            try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
+                System.err.println("Interrupted while waiting after the download. Error: " + e.getMessage());
                 throw new RuntimeException(e);
             }
-            String expectedUrl= "https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215?kursView=kursplan&termin=V23";
-            String actualUrl = url();
-            Assertions.assertEquals(expectedUrl, actualUrl);
+
+            String expectedUrl = "https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215?kursView=kursplan&termin=V23";
+            actualUrl = url();
+            Assertions.assertEquals(expectedUrl, actualUrl, "Failed to verify the URL after downloading syllabus");
 
             closeWebDriver();
 
@@ -244,5 +370,3 @@ public class Tests {
         }
     }
 }
-
-

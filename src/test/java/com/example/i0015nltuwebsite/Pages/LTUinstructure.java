@@ -22,8 +22,9 @@ public class LTUinstructure {
     public WebElement linkTestSystem3;
 
     public SelenideElement myProfile = $("button[id*='profile']");
-    public SelenideElement myProfile1 =$x("//*[@id='global_nav_profile_link']");
-    public SelenideElement logout = $("button[style='margin: 1.5rem 0px 0.5rem; padding: 0px; border-radius: 0.25rem; border-width: 0px; width: auto; cursor: pointer;']");
+    public SelenideElement myProfile1 = $x("//*[@id='global_nav_profile_link']");
+    public SelenideElement logout = $(
+            "button[style='margin: 1.5rem 0px 0.5rem; padding: 0px; border-radius: 0.25rem; border-width: 0px; width: auto; cursor: pointer;']");
     @FindBy(css = "button[id*='profile']")
     public WebElement buttonGlobalNavProfileLink;
 
@@ -35,14 +36,5 @@ public class LTUinstructure {
 
     @FindBy(xpath = "//*[@id='global_nav_profile_link']")
     public WebElement linkGlobalNavProfile2;
-    
-    
-   
-
-
-    
-    
-    
-
 
 }

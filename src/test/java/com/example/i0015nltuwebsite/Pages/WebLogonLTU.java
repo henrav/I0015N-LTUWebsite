@@ -1,10 +1,11 @@
 package com.example.i0015nltuwebsite.Pages;
+
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+
 // page_url = https://weblogon.ltu.se/cas/login
 public class WebLogonLTU {
     public SelenideElement inputUsername = $("input[id='username']");
@@ -12,14 +13,5 @@ public class WebLogonLTU {
     public SelenideElement buttonLogin = $("input.btn-submit");
     @FindBy(css = "input.btn-submit")
     public WebElement inputSubmit;
-    
-    
 
-    
-    
-
-
-
-
-    
 }
