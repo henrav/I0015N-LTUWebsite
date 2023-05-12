@@ -1,4 +1,4 @@
-package com.example.i0015nltuwebsite.PageTests;
+package com.example.i0015nltuwebsite.Test;
 
 import com.codeborne.selenide.*;
 import com.codeborne.selenide.ex.ElementNotFound;
@@ -112,7 +112,7 @@ public class Tests {
             studentLadokSeStudentAppPageTranscripts.buttonCreateNewTranscript.scrollIntoView(true);
             System.out.println("Filled in all transcript options successfully");
 
-            // THIS LINE CREATES THE NEW TRANSCRIPT,
+            // THIS LINE CREATES THE NEW TRANSCRIPT, 
             studentLadokSeStudentAppPageTranscripts.buttonCreateNewTranscript.shouldBe(visible).click();
 
             // Give time for the transcript to be created
@@ -314,10 +314,12 @@ public class Tests {
             ltuStartSida.buttonSearch.shouldBe(visible).click();
             ltuStartSida.inputCludoSearchBar.shouldBe(visible).setValue(ltuStartSida.search);
             ltuStartSida.inputCludoSearchBar.sendKeys(Keys.ENTER);
+            System.out.println("Searched for I0015N successfully");
 
             // Navigate to I0015N course page
             sökResultat.h2TestSystemGskolepo.shouldBe(visible).click();
             sökResultat.divDenKursenRiktarSig.shouldBe(visible);
+            System.out.println("Navigated to the course page successfully");
 
             // Check that the url is correct for the course page
             String courseUrl = "https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215";
@@ -327,6 +329,7 @@ public class Tests {
             // Navigate to course syllabus
             sökResultat.linkKursplan3.shouldBe(visible).click();
             sökResultat.kursplanV23.shouldBe(visible).click();
+            System.out.println("Navigated to the course syllabus successfully");
 
             // Make sure that the syllabys is for the correct year
             String correctYearUrl = "https://www.ltu.se/edu/course/I00/I0015N/I0015N-Test-av-IT-system-1.81215?kursView=kursplan&termin=V23";
@@ -335,6 +338,7 @@ public class Tests {
 
             // download the course syllabys
             sökResultat.downloadKursplan.shouldBe(visible).click();
+            System.out.println("Initiated download of the course syllabus...");
 
             File tempFile = sökResultat.downloadKursplan.download();
             String directoryPath = "target/downloads";

@@ -9,58 +9,57 @@ import java.util.Iterator;
 
 public class Config {
 
-        private static String PATH = "C:\\temp\\ltu.json";
-        //private static String PATH = "src\\LTUcredentials.json"
+    private static String PATH = "C:\\temp\\ltu.json";
 
+    public static String getEmail(String key) {
+        // get the email to login with
+        File jsonFile = new File(PATH);
 
-        public static String getEmail(String key) {
-            // get the email to login with
-            File jsonFile = new File(PATH);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonFile);
 
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(jsonFile);
+            JsonNode credentialsNode = jsonNode.get("ltuCredentials");
 
-                JsonNode credentialsNode = jsonNode.get("ltuCredentials");
-
-                Iterator<String> fieldNames = credentialsNode.fieldNames();
-                while (fieldNames.hasNext()) {
-                    String fieldName = fieldNames.next();
-                    if (fieldName.equalsIgnoreCase(key)) {
-                        return credentialsNode.get(fieldName).asText();
-                    }
+            Iterator<String> fieldNames = credentialsNode.fieldNames();
+            while (fieldNames.hasNext()) {
+                String fieldName = fieldNames.next();
+                if (fieldName.equalsIgnoreCase(key)) {
+                    return credentialsNode.get(fieldName).asText();
                 }
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
 
-            return null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        // get the password to login with
-        public static String getPassword(String key) {
-            File jsonFile = new File(PATH);
 
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(jsonFile);
-
-                JsonNode credentialsNode = jsonNode.get("ltuCredentials");
-
-                Iterator<String> fieldNames = credentialsNode.fieldNames();
-                while (fieldNames.hasNext()) {
-                    String fieldName = fieldNames.next();
-                    if (fieldName.equalsIgnoreCase(key)) {
-                        return credentialsNode.get(fieldName).asText();
-                    }
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }return null;
-        }
-        public static String getSchoolSearch(String key){
-            return "Luleå tekniska universitet";
-        }
+        return null;
     }
 
+    // get the password to login with
+    public static String getPassword(String key) {
+        File jsonFile = new File(PATH);
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(jsonFile);
+
+            JsonNode credentialsNode = jsonNode.get("ltuCredentials");
+
+            Iterator<String> fieldNames = credentialsNode.fieldNames();
+            while (fieldNames.hasNext()) {
+                String fieldName = fieldNames.next();
+                if (fieldName.equalsIgnoreCase(key)) {
+                    return credentialsNode.get(fieldName).asText();
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public static String getSchoolSearch(String key) {
+        return "Luleå tekniska universitet";
+    }
+}
