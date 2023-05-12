@@ -1,4 +1,4 @@
-All code relevant to the email is in "Test/Tests.java".
+The main test file is the "Test/Tests.java" file.
 
 The file path for the credentials is currently set to "C\\temp\\ltu.json", which is specified in "Config/Config.java".
 
