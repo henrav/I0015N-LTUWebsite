@@ -36,6 +36,7 @@ public class Tests {
 
     @BeforeAll
     public static void setUpAll() {
+        System.out.println("Setting up the tests");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("video", true);
         Configuration.browser = "chrome";
@@ -63,6 +64,7 @@ public class Tests {
                         }
                     });
         }
+        System.out.println("All tests are done");
     }
 
     @BeforeEach
