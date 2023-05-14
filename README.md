@@ -1,4 +1,7 @@
 The main test file is the "Test/Tests.java" file.
+The downloads, such as the transcript and syllabus pdfs, will be stored at "target/downloads", and screenshot of final examination page in "target/screenshots".
+
+Currently the test for creating a new transcript has been disabled, through the use of @Disabled. We were unsure if you also wanted to run this code yourself, if that is the case you would just have to comment out the @Disabled above the transcriptfunctionality method in "Test/Tests.java". (Should be on line 78)
 
 The file path for the credentials is currently set to "C\\temp\\ltu.json", which is specified in "Config/Config.java".
 
