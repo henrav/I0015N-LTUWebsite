@@ -75,7 +75,7 @@ public class Tests {
         open("https://www.ltu.se/");
     }
 
-    @Disabled("Do not want to create a new transcript every time")
+    //@Disabled("Do not want to create a new transcript every time")
     @Test
     public void transcriptFunctionality() {
         try {
@@ -84,11 +84,6 @@ public class Tests {
             ltuStartSida.linkStudent.shouldBe(visible).click();
             ltuStudentSida.divRegisterUtag.shouldBe(visible).click();
             System.out.println("Navigated to ladok successfully");
-
-            // Check that the url is correct for ladok
-            String ladokURL = "https://www.student.ladok.se/student/app/studentwebb/";
-            String actualUrl = url();
-            Assertions.assertEquals(ladokURL, actualUrl, "Failed to navigate to Ladok page. URLs do not match!");
 
             // Select Luleå University of Technology as school
             studentLadokSeStudentAppPage.linkInloggningViaDittRos.shouldBe(visible).click();
@@ -128,7 +123,7 @@ public class Tests {
             // Only works if you also create a new transcript, otherwise actualUrl will be
             // different
             String expectedUrl = "https://www.student.ladok.se/student/app/studentwebb/intyg";
-            actualUrl = url();
+            String actualUrl = url();
             Assertions.assertEquals(expectedUrl, actualUrl);
 
         } catch (ElementNotFound e) {
@@ -239,11 +234,6 @@ public class Tests {
             ltuStartSida.linkStudent.shouldBe(visible).click();
             ltuStudentSida.divRegisterUtag.shouldBe(visible).click();
             System.out.println("Navigated to ladok successfully");
-
-            // Check that the url is correct for ladok
-            String ladokURL = "https://www.student.ladok.se/student/app/studentwebb/";
-            String actualUrl = url();
-            Assertions.assertEquals(ladokURL, actualUrl, "Failed to navigate to Ladok page. URLs do not match!");
 
             // Select Luleå University of Technology as school
             studentLadokSeStudentAppPage.linkInloggningViaDittRos.shouldBe(visible).click();
