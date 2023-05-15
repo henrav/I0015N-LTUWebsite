@@ -151,7 +151,7 @@ public class Tests {
             // Navigate to the course page
             ltuinstructure.Kurser.shouldBe(visible).click();
             Selenide.executeJavaScript("arguments[0].click();", ltuinstructure.Testavit.shouldBe(visible));
-            System.out.println("Course and test link clicked successfully.");
+            System.out.println("Course Test of IT Systems link clicked successfully.");
 
             // Navigate to the module page
             ltuinstructureI0015N.linkModuler.shouldBe(visible).click();
