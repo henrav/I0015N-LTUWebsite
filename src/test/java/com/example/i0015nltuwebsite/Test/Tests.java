@@ -40,7 +40,6 @@ public class Tests {
         System.out.println("Setting up the tests");
         Configuration.browserCapabilities.setCapability("video", true);
         Configuration.browser = "chrome";
-        System.setProperty("webdriver.chrome.driver", "/Users/henrikravnborg/Desktop/chromedriver_mac_arm64/chromedriver");
         Configuration.downloadsFolder = "newDownloadsFolder";
         System.setProperty("selenide.browser", "Chrome");
         Configuration.browserSize = "1280x1024";
