@@ -5,8 +5,8 @@ import com.codeborne.selenide.ex.ElementNotFound;
 import com.example.i0015nltuwebsite.Config.Config;
 import com.example.i0015nltuwebsite.Pages.*;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.chrome.ChromeOptions;
+//import org.openqa.selenium.Keys;
+//import org.openqa.selenium.chrome.ChromeOptions;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
@@ -15,6 +15,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Key;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,11 +41,11 @@ public class Tests {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("video", true);
         Configuration.browser = "chrome";
-        ChromeOptions options = new ChromeOptions();
+        System.setProperty("webdriver.chrome.driver", "/Users/henrikravnborg/Desktop/chromedriver_mac_arm64/chromedriver");
         Configuration.downloadsFolder = "newDownloadsFolder";
-        options.addArguments("--lang=en");
+        System.setProperty("selenide.browser", "Chrome");
         Configuration.browserSize = "1280x1024";
-        Configuration.browserCapabilities = options;
+
         SelenideLogger.addListener("allure", new AllureSelenide());
         Configuration.timeout = 10000;
 
@@ -70,8 +71,8 @@ public class Tests {
     @BeforeEach
     public void setUp() {
         // Fix the issue
-        Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
-
+        System.setProperty("chromeoptions.args", "--remote-allow-origins=*");
+        Configuration.browserCapabilities.setCapability("chromeoptions.args", "--remote-allow-origins=*");
         open("https://www.ltu.se/");
     }
 
@@ -305,7 +306,7 @@ public class Tests {
             // Click search icon, and search for "I0015N"
             ltuStartSida.buttonSearch.shouldBe(visible).click();
             ltuStartSida.inputCludoSearchBar.shouldBe(visible).setValue(ltuStartSida.search);
-            ltuStartSida.inputCludoSearchBar.sendKeys(Keys.ENTER);
+            ltuStartSida.inputCludoSearchBar.pressEnter();
             System.out.println("Searched for I0015N successfully");
 
             // Navigate to I0015N course page
