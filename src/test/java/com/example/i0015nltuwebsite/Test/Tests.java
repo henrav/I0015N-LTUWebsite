@@ -10,12 +10,12 @@ import org.apache.commons.io.FileUtils;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.remote.DesiredCapabilities;
+//import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.Key;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,8 +38,7 @@ public class Tests {
     @BeforeAll
     public static void setUpAll() {
         System.out.println("Setting up the tests");
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("video", true);
+        Configuration.browserCapabilities.setCapability("video", true);
         Configuration.browser = "chrome";
         System.setProperty("webdriver.chrome.driver", "/Users/henrikravnborg/Desktop/chromedriver_mac_arm64/chromedriver");
         Configuration.downloadsFolder = "newDownloadsFolder";
